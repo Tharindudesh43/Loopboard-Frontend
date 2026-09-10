@@ -6,8 +6,7 @@ import { AuthProvider } from '../context/AuthContext';
 import ThemeProvider from '../components/ThemeProvider';
 
 export default function Providers({ children }: { children: ReactNode }) {
-  // useState (not a plain module-level constant) so the QueryClient
-  // survives re-renders but isn't shared across separate users' requests.
+
   const [queryClient] = useState(() => new QueryClient());
 
   return (

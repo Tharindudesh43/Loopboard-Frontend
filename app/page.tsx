@@ -33,8 +33,7 @@ export default function HomePage() {
   const router = useRouter();
   const { user, initializing } = useAuth();
 
-  // Only bounce people who are already signed in — everyone else gets a
-  // real public landing page instead of an immediate redirect to /login.
+
   useEffect(() => {
     if (!initializing && user) {
       router.replace('/dashboard');
@@ -47,7 +46,6 @@ export default function HomePage() {
 
   return (
     <div className="relative overflow-hidden">
-      {/* Decorative animated color blobs — purely ambient, behind the content */}
       <div
         className="absolute -top-10 -left-10 h-64 w-64 rounded-full bg-primary/20 blur-3xl animate-blob"
         aria-hidden

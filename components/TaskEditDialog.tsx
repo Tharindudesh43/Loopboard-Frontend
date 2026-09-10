@@ -13,10 +13,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 
 export default function TaskEditDialog({
   task,
+  projectId,
   open,
   onOpenChange,
 }: {
   task: Task;
+  projectId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
@@ -24,8 +26,6 @@ export default function TaskEditDialog({
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
 
-  // Re-sync the form fields whenever a fresh task comes in (e.g. after the
-  // list refetches) or the dialog is reopened on a different task.
   useEffect(() => {
     setTitle(task.title);
     setDescription(task.description);
@@ -34,7 +34,7 @@ export default function TaskEditDialog({
   const updateMutation = useMutation({
     mutationFn: () => axiosClient.patch(`/api/tasks/${task._id}`, { title, description }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectId] });
       onOpenChange(false);
     },
   });

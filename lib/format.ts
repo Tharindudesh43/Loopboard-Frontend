@@ -1,8 +1,3 @@
-/**
- * Formats an ISO date string as a short relative time ("2h ago", "3d ago").
- * Falls back to a plain date once it's more than a week old, since
- * "3 weeks ago" is less useful than just seeing the date at that point.
- */
 export function formatRelativeDate(iso: string): string {
   const date = new Date(iso);
   const diffMs = Date.now() - date.getTime();

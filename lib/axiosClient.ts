@@ -4,8 +4,7 @@ const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-// Attaches the stored JWT to every outgoing request. Guarded by
-// typeof window so this never runs during Next.js's server-side render pass.
+//Attaches the stored JWT to every outgoing request.
 axiosClient.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem('token');
