@@ -27,9 +27,7 @@ export default function TaskCard({ task, projectId }: { task: Task; projectId: s
     id: task._id,
   });
 
-  const style = transform
-    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
-    : undefined;
+
 
   const assignMutation = useMutation({
     mutationFn: () => axiosClient.patch(`/api/tasks/${task._id}/assign`, {}),
@@ -45,6 +43,12 @@ export default function TaskCard({ task, projectId }: { task: Task; projectId: s
     task.creator._id === user?._id ||
     task.assignedUser?._id === user?._id;
 
+
+  const style: React.CSSProperties = {
+    ...(transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` } : {}),
+    touchAction: canDrag ? 'none' : undefined,
+  };
+
   const canEdit = user?.role === 'ADMIN' || task.creator._id === user?._id;
 
   return (
@@ -54,9 +58,8 @@ export default function TaskCard({ task, projectId }: { task: Task; projectId: s
         style={style}
         {...(canDrag ? listeners : {})}
         {...(canDrag ? attributes : {})}
-        className={`shadow-none transition-all duration-200 ${
-          canDrag ? 'cursor-grab active:cursor-grabbing hover:-translate-y-0.5 hover:shadow-md' : ''
-        } ${isDragging ? 'opacity-50 shadow-md' : ''}`}
+        className={`shadow-none transition-all duration-200 ${canDrag ? 'cursor-grab active:cursor-grabbing hover:-translate-y-0.5 hover:shadow-md' : ''
+          } ${isDragging ? 'opacity-50 shadow-md' : ''}`}
       >
         <CardContent className="p-3 space-y-2">
           <div className="flex items-start justify-between gap-2">

@@ -6,6 +6,7 @@ import {
   DndContext,
   PointerSensor,
   useSensor,
+  TouchSensor,
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core';
@@ -14,6 +15,7 @@ import { getErrorMessage } from '../lib/errors';
 import Column from './Column';
 import AddTaskDialog from './AddTaskDialog';
 import type { Project, Task, TaskStatus } from '../lib/types';
+
 
 const COLUMNS: { key: TaskStatus; label: string }[] = [
   { key: 'TODO', label: 'To Do' },
@@ -27,7 +29,10 @@ export default function Board() {
   const [projectId, setProjectId] = useState('');
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, {
+    activationConstraint: { delay: 150, tolerance: 8 },
+  })
   );
 
   const projectsQuery = useQuery({
