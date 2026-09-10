@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-status-todo: hsl(var(--status-todo));
+  --color-status-doing: hsl(var(--status-doing));
+  --color-status-done: hsl(var(--status-done));
+
+  --radius: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: 138 45% 97%;
+  --foreground: 150 20% 12%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 150 20% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 150 20% 12%;
+
+  --primary: 142 71% 45%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 138 40% 93%;
+  --secondary-foreground: 150 20% 20%;
+
+  --muted: 138 30% 94%;
+  --muted-foreground: 150 10% 42%;
+
+  --accent: 142 55% 90%;
+  --accent-foreground: 142 71% 25%;
+
+  --destructive: 0 72% 42%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 140 25% 88%;
+  --input: 140 25% 88%;
+  --ring: 142 71% 45%;
+  --radius: 0.5rem;
+
+  --status-todo: 26 90% 45%;
+  --status-doing: 217 91% 55%;
+  --status-done: 142 71% 45%;
+}
+
+.dark {
+  --background: 150 18% 8%;
+  --foreground: 138 20% 92%;
+
+  --card: 150 14% 11%;
+  --card-foreground: 138 20% 92%;
+  --popover: 150 14% 11%;
+  --popover-foreground: 138 20% 92%;
+
+  --primary: 142 65% 50%;
+  --primary-foreground: 150 20% 8%;
+
+  --secondary: 150 12% 16%;
+  --secondary-foreground: 138 20% 90%;
+
+  --muted: 150 12% 15%;
+  --muted-foreground: 140 10% 60%;
+
+  --accent: 142 40% 18%;
+  --accent-foreground: 142 60% 80%;
+
+  --destructive: 0 65% 45%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 150 12% 20%;
+  --input: 150 12% 20%;
+  --ring: 142 65% 50%;
+
+  --status-todo: 26 85% 55%;
+  --status-doing: 217 85% 62%;
+  --status-done: 142 65% 50%;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    background-image: radial-gradient(circle at top left, hsl(var(--primary) / 0.07), transparent 45%),
+      radial-gradient(circle at bottom right, hsl(var(--status-doing) / 0.06), transparent 45%);
+    background-attachment: fixed;
+  }
 }
