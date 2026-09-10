@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { LogOut, ShieldCheck, Menu, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -39,11 +40,15 @@ export default function Navbar() {
   return (
     <nav className="border-b sticky top-0 z-40 bg-gradient-to-r from-primary/5 via-background/95 to-status-doing/5 backdrop-blur">
       <div className="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
-        <Link
-          href="/"
-          className="font-heading text-lg font-semibold bg-gradient-to-r from-primary to-status-doing bg-clip-text text-transparent"
-        >
-          Task Board
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo.png"
+            alt="LoopBoard"
+            width={50}
+            height={50}
+            className="h-full w-full"
+            priority
+          />
         </Link>
 
         <div className="hidden md:flex items-center gap-6 text-sm">
@@ -105,7 +110,15 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="right">
               <SheetHeader>
-                <SheetTitle className="font-heading">Task Board</SheetTitle>
+                <SheetTitle className="font-heading">
+                  <Image
+                    src="/logo.png"
+                    alt="LoopBoard"
+                    width={500}
+                    height={452}
+                    className="h-8 w-auto"
+                  />
+                </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-6 text-sm">
                 {NAV_LINKS.map((link) => (
