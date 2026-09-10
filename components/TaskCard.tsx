@@ -18,7 +18,7 @@ function initials(name: string) {
   return name.split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase();
 }
 
-export default function TaskCard({ task }: { task: Task }) {
+export default function TaskCard({ task, projectId }: { task: Task; projectId: string }) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [editOpen, setEditOpen] = useState(false);
@@ -33,21 +33,18 @@ export default function TaskCard({ task }: { task: Task }) {
 
   const assignMutation = useMutation({
     mutationFn: () => axiosClient.patch(`/api/tasks/${task._id}/assign`, {}),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks', projectId] }),
   });
 
-  // Matches the backend rule: a normal user may only self-assign a
-  // currently unassigned task.
+
   const canSelfAssign = user?.role === 'USER' && !task.assignedUser;
 
-  // Mirrors the backend's updateStatus permission check exactly (admin,
-  // creator, or the assigned user).
+
   const canDrag =
     user?.role === 'ADMIN' ||
     task.creator._id === user?._id ||
     task.assignedUser?._id === user?._id;
 
-  // Mirrors the backend's updateTask/deleteTask permission check (creator or admin).
   const canEdit = user?.role === 'ADMIN' || task.creator._id === user?._id;
 
   return (
@@ -122,7 +119,9 @@ export default function TaskCard({ task }: { task: Task }) {
         </CardContent>
       </Card>
 
-      {canEdit && <TaskEditDialog task={task} open={editOpen} onOpenChange={setEditOpen} />}
+      {canEdit && (
+        <TaskEditDialog task={task} projectId={projectId} open={editOpen} onOpenChange={setEditOpen} />
+      )}
     </>
   );
 }

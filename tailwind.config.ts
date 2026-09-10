@@ -48,7 +48,6 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        // Custom — not part of shadcn's defaults, used for Kanban status coding
         status: {
           todo: 'hsl(var(--status-todo))',
           doing: 'hsl(var(--status-doing))',

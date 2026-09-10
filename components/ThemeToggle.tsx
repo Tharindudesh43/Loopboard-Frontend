@@ -9,9 +9,6 @@ export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // resolvedTheme is undefined on the server and briefly on first client
-  // render until next-themes reads localStorage/system preference — render
-  // a placeholder until then to avoid a hydration mismatch or icon flicker.
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {

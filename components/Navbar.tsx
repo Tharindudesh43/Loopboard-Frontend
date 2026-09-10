@@ -46,7 +46,6 @@ export default function Navbar() {
           Task Board
         </Link>
 
-        {/* Desktop nav links */}
         <div className="hidden md:flex items-center gap-6 text-sm">
           {NAV_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
@@ -98,7 +97,6 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* Mobile menu trigger */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">

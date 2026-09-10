@@ -23,7 +23,6 @@ export default function ProfilePage() {
   const [linkedin, setLinkedin] = useState('');
   const [success, setSuccess] = useState(false);
 
-  // Pre-fill from the logged-in user once auth has finished loading.
   useEffect(() => {
     if (initializing) return;
     if (!user) {
@@ -46,8 +45,6 @@ export default function ProfilePage() {
         socialLinks: { github, linkedin },
       }),
     onSuccess: ({ data }) => {
-      // Sync AuthContext (and localStorage) immediately so the navbar
-      // and everywhere else reflects the edit without a re-login.
       updateUser(data.user);
       setSuccess(true);
     },
@@ -73,8 +70,6 @@ export default function ProfilePage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="profile-email">Email</Label>
-            {/* Email changes need re-verification, kept out of scope — see
-                the updateMe comment in authController.js on the backend. */}
             <Input id="profile-email" value={user.email} disabled />
           </div>
           <div className="space-y-1.5">

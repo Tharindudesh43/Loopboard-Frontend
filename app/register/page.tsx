@@ -3,8 +3,13 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getErrorMessage } from '../../lib/errors';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -31,49 +36,69 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="max-w-sm mx-auto mt-16">
-      <h1 className="text-2xl font-semibold mb-6">Create an account</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password (min. 6 characters)"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-          minLength={6}
-          required
-        />
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white rounded px-3 py-2 disabled:opacity-50"
-        >
-          {loading ? 'Creating account…' : 'Register'}
-        </button>
-      </form>
-      <p className="text-sm mt-4">
-        Already have an account?{' '}
-        <Link href="/login" className="text-blue-600 hover:underline">
-          Log in
-        </Link>
-      </p>
+    <div className="relative max-w-sm mx-auto mt-16">
+      <div
+        className="absolute -top-16 -left-10 h-48 w-48 rounded-full bg-status-doing/15 blur-3xl"
+        aria-hidden
+      />
+      <Card className="relative animate-fade-in-up">
+        <CardHeader>
+          <CardTitle className="font-heading text-2xl">Create an account</CardTitle>
+          <CardDescription>Start organizing your work in seconds.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="register-name">Name</Label>
+              <Input
+                id="register-name"
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                autoComplete="name"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="register-email">Email</Label>
+              <Input
+                id="register-email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="register-password">Password</Label>
+              <Input
+                id="register-password"
+                type="password"
+                placeholder="Min. 6 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={6}
+                required
+                autoComplete="new-password"
+              />
+            </div>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button type="submit" disabled={loading} className="w-full gap-2">
+              <UserPlus className="h-4 w-4" />
+              {loading ? 'Creating account…' : 'Register'}
+            </Button>
+          </form>
+          <p className="text-sm text-muted-foreground mt-4">
+            Already have an account?{' '}
+            <Link href="/login" className="text-primary hover:underline font-medium">
+              Log in
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

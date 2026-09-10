@@ -45,8 +45,6 @@ export default function AdminUsersPage() {
     onSuccess: () => {
       setError('');
       queryClient.invalidateQueries({ queryKey: ['users'] });
-      // Deleting a user can unassign or remove tasks server-side, so the
-      // task list needs refetching too.
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
     onError: (err) => setError(getErrorMessage(err, 'Could not delete user')),
@@ -80,9 +78,6 @@ export default function AdminUsersPage() {
                 <Badge variant={u.role === 'ADMIN' ? 'default' : 'secondary'}>{u.role}</Badge>
               </TableCell>
               <TableCell className="text-right">
-                {/* Admin accounts can't be deleted — the backend blocks it
-                    too, but there's no point showing a button that will
-                    always 403. */}
                 {u.role === 'USER' && (
                   <AlertDialog>
                     <AlertDialogTrigger asChild>

@@ -21,10 +21,12 @@ export default function Column({
   id,
   title,
   tasks,
+  projectId,
 }: {
   id: TaskStatus;
   title: string;
   tasks: Task[];
+  projectId: string;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
 
@@ -44,7 +46,7 @@ export default function Column({
       </div>
       <div className="space-y-3 min-h-[48px]">
         {tasks.map((task) => (
-          <TaskCard key={task._id} task={task} />
+          <TaskCard key={task._id} task={task} projectId={projectId} />
         ))}
         {tasks.length === 0 && <p className="text-sm text-muted-foreground">Drop tasks here</p>}
       </div>

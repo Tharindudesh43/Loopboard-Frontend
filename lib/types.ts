@@ -18,13 +18,22 @@ export interface User {
   updatedAt: string;
 }
 
-// The creator/assignedUser fields on a Task come back from the backend
-// via .populate('creator', 'name email') — only these fields are present,
-// not the full User document (no role, no timestamps).
+
 export interface UserRef {
   _id: string;
   name: string;
   email: string;
+}
+
+
+export interface Project {
+  _id: string;
+  name: string;
+  description: string;
+  createdBy: UserRef;
+  members: UserRef[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Task {
