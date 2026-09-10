@@ -18,19 +18,20 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export default function AddTaskDialog() {
+//POST body (POST /api/tasks without projectId returns 400).
+export default function AddTaskDialog({ projectId }: { projectId: string }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const createMutation = useMutation({
-    mutationFn: () => axiosClient.post('/api/tasks', { title, description }),
+    mutationFn: () => axiosClient.post('/api/tasks', { projectId, title, description }),
     onSuccess: () => {
       setTitle('');
       setDescription('');
       setOpen(false);
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectId] });
     },
   });
 

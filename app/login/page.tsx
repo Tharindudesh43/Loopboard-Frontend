@@ -3,8 +3,13 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { LogIn } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getErrorMessage } from '../../lib/errors';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -30,40 +35,56 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="max-w-sm mx-auto mt-16">
-      <h1 className="text-2xl font-semibold mb-6">Log in</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-          required
-        />
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white rounded px-3 py-2 disabled:opacity-50"
-        >
-          {loading ? 'Logging in…' : 'Log in'}
-        </button>
-      </form>
-      <p className="text-sm mt-4">
-        No account?{' '}
-        <Link href="/register" className="text-blue-600 hover:underline">
-          Register
-        </Link>
-      </p>
+    <div className="relative max-w-sm mx-auto mt-16">
+      <div
+        className="absolute -top-16 -right-10 h-48 w-48 rounded-full bg-primary/15 blur-3xl"
+        aria-hidden
+      />
+      <Card className="relative animate-fade-in-up">
+        <CardHeader>
+          <CardTitle className="font-heading text-2xl">Welcome back</CardTitle>
+          <CardDescription>Log in to see your board.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="login-email">Email</Label>
+              <Input
+                id="login-email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="login-password">Password</Label>
+              <Input
+                id="login-password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </div>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button type="submit" disabled={loading} className="w-full gap-2">
+              <LogIn className="h-4 w-4" />
+              {loading ? 'Logging in…' : 'Log in'}
+            </Button>
+          </form>
+          <p className="text-sm text-muted-foreground mt-4">
+            No account?{' '}
+            <Link href="/register" className="text-primary hover:underline font-medium">
+              Register
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

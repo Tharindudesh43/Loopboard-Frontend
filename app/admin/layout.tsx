@@ -4,12 +4,14 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { Users, ListTodo, LayoutDashboard } from 'lucide-react';
+import { Users, ListTodo, LayoutDashboard, FolderKanban } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '@/lib/utils';
 
+
 const ADMIN_LINKS = [
   { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
   { href: '/admin/tasks', label: 'All tasks', icon: ListTodo },
   { href: '/admin/board', label: 'Board', icon: LayoutDashboard },
 ];
@@ -19,9 +21,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Single route guard for every /admin/* page — enforced server-side too
-  // (requireAdmin on the users/tasks endpoints), this just avoids a page
-  // flash before the redirect happens.
   useEffect(() => {
     if (initializing) return;
     if (!user) {
@@ -39,7 +38,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   return (
     <div>
-      {/* Mobile: horizontal tabs instead of a sidebar */}
       <nav className="flex sm:hidden gap-2 overflow-x-auto pb-3 mb-4 border-b">
         {ADMIN_LINKS.map(({ href, label }) => (
           <Link

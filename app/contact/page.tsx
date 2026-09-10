@@ -12,8 +12,8 @@ export default function ContactPage() {
           <CardTitle className="text-base">Get in touch</CardTitle>
         </CardHeader>
         <CardContent>
-          <a href="mailto:hello@example.com" className="text-primary hover:underline">
-            hello@example.com
+          <a href="mailto:tharindudeshanhimahansa43@gmail.com" className="text-primary hover:underline">
+            tharindudeshanhimahansa43@gmail.com
           </a>
         </CardContent>
       </Card>

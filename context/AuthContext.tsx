@@ -17,8 +17,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  // True until we've checked localStorage once on mount — prevents a
-  // flash-redirect to /login before we know a session actually exists.
+  
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
@@ -66,9 +65,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }
 
-  // Called after a successful PATCH /api/auth/me so the cached user
-  // (both in React state and localStorage) reflects the edit immediately,
-  // without needing a full re-login.
   function updateUser(updated: User) {
     localStorage.setItem('user', JSON.stringify(updated));
     setUser(updated);
