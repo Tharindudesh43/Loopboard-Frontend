@@ -95,10 +95,6 @@ export default function Board() {
     },
   });
 
-  // Track which task is being dragged so it can be rendered in the
-  // DragOverlay below — this is what makes the drag feel smooth on
-  // mobile, since the overlay card floats in its own layer instead of
-  // being transformed while still sitting inside the scrolling column.
   function handleDragStart(event: DragStartEvent) {
     const task = tasks.find((t) => t._id === String(event.active.id));
     setActiveTask(task ?? null);
@@ -182,9 +178,6 @@ export default function Board() {
             />
           ))}
         </div>
-
-        {/* Deliberately a plain div, not <TaskCard>, so we don't register
-            a second useDraggable with the same task id. */}
         <DragOverlay>
           {activeTask && (
             <div className="rounded-lg border bg-card shadow-lg p-3 w-[260px] rotate-2 opacity-95">
