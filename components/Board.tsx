@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   DndContext,
+  DragOverlay,
   PointerSensor,
   useSensor,
   TouchSensor,
   useSensors,
   type DragEndEvent,
+  type DragStartEvent
 } from '@dnd-kit/core';
 import axiosClient from '../lib/axiosClient';
 import { getErrorMessage } from '../lib/errors';
@@ -27,6 +29,7 @@ export default function Board() {
   const queryClient = useQueryClient();
   const [dragError, setDragError] = useState('');
   const [projectId, setProjectId] = useState('');
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -92,7 +95,17 @@ export default function Board() {
     },
   });
 
+  // Track which task is being dragged so it can be rendered in the
+  // DragOverlay below — this is what makes the drag feel smooth on
+  // mobile, since the overlay card floats in its own layer instead of
+  // being transformed while still sitting inside the scrolling column.
+  function handleDragStart(event: DragStartEvent) {
+    const task = tasks.find((t) => t._id === String(event.active.id));
+    setActiveTask(task ?? null);
+  }
+
   function handleDragEnd(event: DragEndEvent) {
+    setActiveTask(null);
     const { active, over } = event;
     if (!over) return;
 
@@ -152,7 +165,12 @@ export default function Board() {
 
       {dragError && <p className="text-sm text-destructive mb-2">{dragError}</p>}
 
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <DndContext
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={() => setActiveTask(null)}
+      >
         <div className="flex flex-col sm:flex-row gap-4 sm:overflow-x-auto">
           {COLUMNS.map(({ key, label }) => (
             <Column
@@ -164,6 +182,16 @@ export default function Board() {
             />
           ))}
         </div>
+
+        {/* Deliberately a plain div, not <TaskCard>, so we don't register
+            a second useDraggable with the same task id. */}
+        <DragOverlay>
+          {activeTask && (
+            <div className="rounded-lg border bg-card shadow-lg p-3 w-[260px] rotate-2 opacity-95">
+              <p className="font-medium text-sm leading-snug">{activeTask.title}</p>
+            </div>
+          )}
+        </DragOverlay>
       </DndContext>
     </div>
   );
