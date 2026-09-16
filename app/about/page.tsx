@@ -44,7 +44,7 @@ export default function AboutPage() {
           Simplicity in Execution.
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
-          Task Board was created to eliminate workflow clutter. It offers teams an intuitive visual board to capture ideas, delegate responsibilities, and guide work from planning to completion without friction.
+          LoopBoard was created to eliminate workflow clutter. It offers teams an intuitive visual board to capture ideas, delegate responsibilities, and guide work from planning to completion without friction.
         </p>
       </div>
 
